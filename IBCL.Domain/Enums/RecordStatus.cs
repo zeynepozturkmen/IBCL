@@ -1,5 +1,5 @@
 ﻿
-namespace IBCL.Domain.Enum
+namespace IBCL.Domain.Enums
 {
     public enum RecordStatus
     {

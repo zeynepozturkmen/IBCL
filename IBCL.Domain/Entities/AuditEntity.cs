@@ -1,4 +1,4 @@
-﻿using IBCL.Domain.Enum;
+﻿using IBCL.Domain.Enums;
 using IBCL.Domain.Persistence;
 using System.ComponentModel.DataAnnotations;
 
@@ -16,7 +16,7 @@ namespace IBCL.Domain.Entities
         public string CreatedBy { get; set; }
 
         [MaxLength(50)]
-        public string LastModifiedBy { get; set; }
+        public string? LastModifiedBy { get; set; }
 
         public RecordStatus RecordStatus { get; set; }
     }

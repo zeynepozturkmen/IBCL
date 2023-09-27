@@ -19,8 +19,4 @@
     <ProjectReference Include="..\IBCL.Infrastructure\IBCL.Infrastructure.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
 </Project>

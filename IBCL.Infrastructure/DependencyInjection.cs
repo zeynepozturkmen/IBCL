@@ -1,4 +1,8 @@
-﻿using IBCL.Infrastructure.Persistence;
+﻿using IBCL.Application.Common.Interfaces;
+using IBCL.Domain.Entities;
+using IBCL.Infrastructure.Persistence;
+using IBCL.Infrastructure.Services;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,7 +18,7 @@ namespace IBCL.Infrastructure
             var connectionString = configuration.GetConnectionString("DefaultConnectionString");
             services.AddDbContext<IBCLDbContext>(options => options.UseSqlServer(connectionString, optionBuilder =>
                                                                                  optionBuilder.MigrationsAssembly("IBCL.Infrastructure")),
-                                                                                 ServiceLifetime.Scoped);
+                                                                                 ServiceLifetime.Singleton);
 
         }
 
@@ -22,7 +26,18 @@ namespace IBCL.Infrastructure
                                                            IConfiguration configuration)
         {
             ConfigureDatabase(services, configuration);
+            ConfigureServices(services);
             return services;
+        }
+
+        private static void ConfigureServices(IServiceCollection services)
+        {
+          
+            services.AddScoped<IAccountService, AccountService>();
+
+            services.AddIdentity<Account, IdentityRole<Guid>>()
+                   .AddEntityFrameworkStores<IBCLDbContext>()
+                   .AddDefaultTokenProviders(); ;
         }
     }
 }
