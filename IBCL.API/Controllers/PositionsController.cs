@@ -1,14 +1,16 @@
 ﻿using IBCL.Application.Common.Interfaces;
 using IBCL.Application.Common.Models.Request.Positions;
 using IBCL.Application.Common.Models.Response.Position;
+using IBCL.Infrastructure.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Text.Json.Serialization;
 
 namespace IBCL.API.Controllers
 {
     [Route("api/[controller]")]
+    [Authorize]
     [ApiController]
-    //[Authorize]
     public class PositionsController : ControllerBase
     {
         private readonly IPositionService _positionService;
@@ -17,14 +19,16 @@ namespace IBCL.API.Controllers
             _positionService = positionService;
         }
 
-        [HttpPost]
-        public async Task SaveAsync(SavePositionRequest request)
+        [HttpPost("savePosition")]
+        public async Task SaveAsync([FromBody]SavePositionRequest request)
         {
+            request.UserId = User.Identity.GetUserId();
+
             await _positionService.SavePositionAsync(request);
         }
 
-        [HttpPut("")]
-        public async Task UpdateAsync(UpdatePositionRequest request)
+        [HttpPut("updatePosition")]
+        public async Task UpdateAsync([FromBody] UpdatePositionRequest request)
         {
             await _positionService.UpdatePositionAsync(request);
         }

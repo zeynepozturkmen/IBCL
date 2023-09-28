@@ -1,5 +1,5 @@
 ﻿using IBCL.Application.Common.Interfaces;
-using IBCL.Application.Common.Models.Response.Account;
+using IBCL.Application.Common.Models.Request.Account;
 using IBCL.Application.Common.Models.Response.Accounts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -7,8 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 namespace IBCL.API.Controllers
 {
     [Route("api/[controller]")]
-    [ApiController]
     [Authorize]
+    [ApiController]
     public class AccountController : ControllerBase
     {
         private readonly IAccountService _accountService;

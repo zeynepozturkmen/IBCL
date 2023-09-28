@@ -1,7 +1,9 @@
 
+using FluentValidation.AspNetCore;
 using Hangfire;
 using IBCL.Infrastructure;
 using IBCL.Infrastructure.Hangfire;
+using IBCL.Infrastructure.Validator.Account;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);

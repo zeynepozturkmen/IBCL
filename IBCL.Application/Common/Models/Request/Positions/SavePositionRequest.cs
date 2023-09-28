@@ -2,9 +2,8 @@
 
 namespace IBCL.Application.Common.Models.Request.Positions
 {
-    public class SavePositionRequest
+    public class SavePositionRequest : BaseRequestModel
     {
-        public DateTime TransactionDate { get; set; }
         public string Currency { get; set; }
         public decimal Amount { get; set; }
         public PositingStatus Status { get; set; }

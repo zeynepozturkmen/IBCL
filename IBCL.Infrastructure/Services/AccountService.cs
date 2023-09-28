@@ -1,5 +1,5 @@
 ﻿using IBCL.Application.Common.Interfaces;
-using IBCL.Application.Common.Models.Response.Account;
+using IBCL.Application.Common.Models.Request.Account;
 using IBCL.Application.Common.Models.Response.Accounts;
 using IBCL.Domain.Entities;
 using IBCL.Domain.Enums;
@@ -16,6 +16,7 @@ namespace IBCL.Infrastructure.Services
     {
         private readonly UserManager<Account> _userManager;
         private readonly SignInManager<Account> _signInManager;
+        private const decimal Balance= 10000;
 
         public AccountService(UserManager<Account> userManager, SignInManager<Account> signInManager)
         {
@@ -29,8 +30,10 @@ namespace IBCL.Infrastructure.Services
 
             var user = userModel.Adapt<Account>();
             user.UserName = userModel.Email;
-            user.CreatedBy = Guid.NewGuid().ToString();
+            user.CreatedBy = Guid.Empty.ToString();
             user.RecordStatus = RecordStatus.Active;
+            user.Balance = Balance;
+
             var result = await _userManager.CreateAsync(user, userModel.Password);
             if (!result.Succeeded)
             {
@@ -69,8 +72,8 @@ namespace IBCL.Infrastructure.Services
             var signInCredentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
             var token = new JwtSecurityToken(
-                issuer: "ıbcl.com",
-                audience: "ıbcl.com",
+                issuer: "ibcl.com",
+                audience: "ibcl.com",
                 expires: DateTime.Now.AddMinutes(30),
                 claims: new[]
                 {

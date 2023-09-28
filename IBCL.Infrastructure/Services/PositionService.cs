@@ -37,8 +37,9 @@ namespace IBCL.Infrastructure.Services
 
             var position = request.Adapt<Position>();
             position.RecordStatus = RecordStatus.Active;
-            position.CreatedBy = Guid.NewGuid().ToString();
+            position.CreatedBy = request.UserId.Value.ToString();
             position.TotalPrice = request.Amount * asset.Price;
+            position.TransactionDate = DateTime.Now;
 
             await _dbContext.Position.AddAsync(position);
 
@@ -67,6 +68,7 @@ namespace IBCL.Infrastructure.Services
 
             request.Adapt(position);
             position.TotalPrice = request.Amount * asset.Price;
+            position.TransactionDate = DateTime.Now;
 
             await _dbContext.SaveChangesAsync();
         }

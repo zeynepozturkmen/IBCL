@@ -13,6 +13,7 @@ namespace IBCL.Infrastructure.Persistence.Configurations
             builder.Property(u => u.LastName).HasMaxLength(50).IsRequired();
             builder.Property(u => u.IdentityNumber).HasMaxLength(11).IsRequired();
             builder.Property(u => u.Email).HasMaxLength(50).IsRequired();
+            builder.Property(u => u.TelegramChatId).HasMaxLength(20).IsRequired();
 
 
             builder.HasMany(x => x.Positions).WithOne(x => x.Account).HasForeignKey(x=>x.AccountId);

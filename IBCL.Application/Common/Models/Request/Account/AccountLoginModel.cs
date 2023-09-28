@@ -1,4 +1,4 @@
-﻿namespace IBCL.Application.Common.Models.Response.Account
+﻿namespace IBCL.Application.Common.Models.Request.Account
 {
     public class AccountLoginModel
     {

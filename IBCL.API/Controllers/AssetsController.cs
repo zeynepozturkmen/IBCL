@@ -6,8 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 namespace IBCL.API.Controllers
 {
     [Route("api/[controller]")]
-    [ApiController]
     [Authorize]
+    [ApiController]
     public class AssetsController : ControllerBase
     {
 
