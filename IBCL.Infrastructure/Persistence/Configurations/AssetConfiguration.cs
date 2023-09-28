@@ -9,7 +9,7 @@ namespace IBCL.Infrastructure.Persistence.Configurations
         public void Configure(EntityTypeBuilder<Asset> builder)
         {
 
-            builder.HasOne(x => x.Account).WithMany(x => x.Assets).HasForeignKey(x => x.AccountId);
+            builder.HasMany(x => x.Positions).WithOne(x => x.Asset).HasForeignKey(x => x.AssetId);
         }
     }
 }

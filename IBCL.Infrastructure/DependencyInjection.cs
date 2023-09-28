@@ -1,4 +1,5 @@
-﻿using IBCL.Application.Common.Interfaces;
+﻿using Hangfire;
+using IBCL.Application.Common.Interfaces;
 using IBCL.Domain.Entities;
 using IBCL.Infrastructure.Persistence;
 using IBCL.Infrastructure.Services;
@@ -27,6 +28,7 @@ namespace IBCL.Infrastructure
         {
             ConfigureDatabase(services, configuration);
             ConfigureServices(services);
+            ConfigureHangfire(services, configuration); 
             return services;
         }
 
@@ -34,10 +36,20 @@ namespace IBCL.Infrastructure
         {
           
             services.AddScoped<IAccountService, AccountService>();
+            services.AddScoped<IAssetService, AssetService>();
+            services.AddScoped<IPositionService, PositionService>();
+            services.AddScoped<IAssetReportService, AssetReportService>();
 
             services.AddIdentity<Account, IdentityRole<Guid>>()
                    .AddEntityFrameworkStores<IBCLDbContext>()
                    .AddDefaultTokenProviders(); ;
+        }
+
+        private static void ConfigureHangfire(IServiceCollection services, IConfiguration configuration)
+        {
+            var connectionString = configuration.GetConnectionString("HangfireConnectionString");
+            services.AddHangfire(x => x.UseSqlServerStorage(connectionString));
+            services.AddHangfireServer();
         }
     }
 }

@@ -1,6 +1,8 @@
 ﻿using IBCL.Application.Common.Interfaces;
-using IBCL.Application.Common.Models;
+using IBCL.Application.Common.Models.Response.Account;
+using IBCL.Application.Common.Models.Response.Accounts;
 using IBCL.Domain.Entities;
+using IBCL.Domain.Enums;
 using Mapster;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
@@ -28,6 +30,7 @@ namespace IBCL.Infrastructure.Services
             var user = userModel.Adapt<Account>();
             user.UserName = userModel.Email;
             user.CreatedBy = Guid.NewGuid().ToString();
+            user.RecordStatus = RecordStatus.Active;
             var result = await _userManager.CreateAsync(user, userModel.Password);
             if (!result.Succeeded)
             {
@@ -51,7 +54,7 @@ namespace IBCL.Infrastructure.Services
 
             var result = await _signInManager.CheckPasswordSignInAsync(user, request.Password, true);
 
-            string accessToken = await GenerateJwtTokenAsync(user);
+            string accessToken = GenerateJwtTokenAsync(user);
 
             return new AccountTokenDto
             {
@@ -60,7 +63,7 @@ namespace IBCL.Infrastructure.Services
             };
         }
 
-        private async Task<string> GenerateJwtTokenAsync(Account account)
+        private string GenerateJwtTokenAsync(Account account)
         {
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("secretsecretsecretsecretsecretsecretsecret"));
             var signInCredentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);

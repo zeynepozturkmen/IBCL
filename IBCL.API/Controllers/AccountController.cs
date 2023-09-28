@@ -1,5 +1,6 @@
 ﻿using IBCL.Application.Common.Interfaces;
-using IBCL.Application.Common.Models;
+using IBCL.Application.Common.Models.Response.Account;
+using IBCL.Application.Common.Models.Response.Accounts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

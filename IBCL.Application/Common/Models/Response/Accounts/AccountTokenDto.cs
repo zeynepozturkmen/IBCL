@@ -1,4 +1,4 @@
-﻿namespace IBCL.Application.Common.Models
+﻿namespace IBCL.Application.Common.Models.Response.Accounts
 {
     public class AccountTokenDto
     {

@@ -1,5 +1,7 @@
 
+using Hangfire;
 using IBCL.Infrastructure;
+using IBCL.Infrastructure.Hangfire;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -56,7 +58,18 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseHangfireDashboard("/job", new DashboardOptions
+{
+    DashboardTitle = "IBCL Hangfire",
+});
+
+app.UseHangfireServer(new BackgroundJobServerOptions());
+
+GlobalJobFilters.Filters.Add(new AutomaticRetryAttribute { Attempts = 3 });
+RecurringJobs.GetMinutelyAssetsReport();
 
 app.MapControllers();
 

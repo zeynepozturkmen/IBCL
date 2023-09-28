@@ -1,4 +1,5 @@
-﻿using IBCL.Application.Common.Models;
+﻿using IBCL.Application.Common.Models.Response.Account;
+using IBCL.Application.Common.Models.Response.Accounts;
 
 namespace IBCL.Application.Common.Interfaces
 {

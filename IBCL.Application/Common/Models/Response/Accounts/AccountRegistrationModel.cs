@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace IBCL.Application.Common.Models
+namespace IBCL.Application.Common.Models.Response.Account
 {
     public class AccountRegistrationModel
     {

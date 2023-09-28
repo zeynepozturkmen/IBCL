@@ -4,6 +4,7 @@ using IBCL.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace IBCL.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(IBCLDbContext))]
-    partial class IBCLDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230928131734_AddTransactionTypeColumn")]
+    partial class AddTransactionTypeColumn
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -142,6 +145,12 @@ namespace IBCL.Infrastructure.Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid>("AccountId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("datetime2");
 
@@ -155,9 +164,6 @@ namespace IBCL.Infrastructure.Persistence.Migrations
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<decimal>("LastPrice")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("RecordStatus")
@@ -174,6 +180,8 @@ namespace IBCL.Infrastructure.Persistence.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("AccountId");
+
                     b.ToTable("Asset", (string)null);
                 });
 
@@ -188,9 +196,6 @@ namespace IBCL.Infrastructure.Persistence.Migrations
 
                     b.Property<decimal>("Amount")
                         .HasColumnType("decimal(18,2)");
-
-                    b.Property<Guid>("AssetId")
-                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("datetime2");
@@ -235,8 +240,6 @@ namespace IBCL.Infrastructure.Persistence.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("AccountId");
-
-                    b.HasIndex("AssetId");
 
                     b.ToTable("Position", (string)null);
                 });
@@ -372,6 +375,17 @@ namespace IBCL.Infrastructure.Persistence.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("IBCL.Domain.Entities.Asset", b =>
+                {
+                    b.HasOne("IBCL.Domain.Entities.Account", "Account")
+                        .WithMany("Assets")
+                        .HasForeignKey("AccountId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Account");
+                });
+
             modelBuilder.Entity("IBCL.Domain.Entities.Position", b =>
                 {
                     b.HasOne("IBCL.Domain.Entities.Account", "Account")
@@ -380,15 +394,7 @@ namespace IBCL.Infrastructure.Persistence.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("IBCL.Domain.Entities.Asset", "Asset")
-                        .WithMany("Positions")
-                        .HasForeignKey("AssetId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Account");
-
-                    b.Navigation("Asset");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
@@ -444,11 +450,8 @@ namespace IBCL.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("IBCL.Domain.Entities.Account", b =>
                 {
-                    b.Navigation("Positions");
-                });
+                    b.Navigation("Assets");
 
-            modelBuilder.Entity("IBCL.Domain.Entities.Asset", b =>
-                {
                     b.Navigation("Positions");
                 });
 #pragma warning restore 612, 618

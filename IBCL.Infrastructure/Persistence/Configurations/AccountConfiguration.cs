@@ -15,7 +15,7 @@ namespace IBCL.Infrastructure.Persistence.Configurations
             builder.Property(u => u.Email).HasMaxLength(50).IsRequired();
 
 
-            builder.HasMany(x => x.Assets).WithOne(x => x.Account).HasForeignKey(x=>x.AccountId);
+            builder.HasMany(x => x.Positions).WithOne(x => x.Account).HasForeignKey(x=>x.AccountId);
         }
     }
 }

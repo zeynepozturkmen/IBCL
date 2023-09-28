@@ -22,7 +22,6 @@ namespace IBCL.Domain.Entities
         public string? LastModifiedBy { get; set; }
 
         public RecordStatus RecordStatus { get; set; }
-        public List<Asset> Assets { get; set; }
         public List<Position> Positions { get; set; }
     }
 }
