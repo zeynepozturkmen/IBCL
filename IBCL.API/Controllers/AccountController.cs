@@ -21,7 +21,14 @@ namespace IBCL.API.Controllers
         public async Task<IActionResult> Register(AccountRegistrationModel userModel)
         {
 
-          return Ok(await _accountService.Register(userModel));
+          return Ok(await _accountService.RegisterAsync(userModel));
+        }
+
+        [AllowAnonymous]
+        [HttpPost("login")]
+        public async Task<ActionResult<AccountTokenDto>> LoginAsync(AccountLoginModel request)
+        {
+            return Ok(await _accountService.LoginAsync(request));
         }
     }
 }

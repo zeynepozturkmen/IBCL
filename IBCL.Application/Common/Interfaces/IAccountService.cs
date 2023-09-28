@@ -4,6 +4,7 @@ namespace IBCL.Application.Common.Interfaces
 {
     public interface IAccountService
     {
-        Task<AccountRegistrationModel> Register(AccountRegistrationModel userModel);
+        Task<AccountRegistrationModel> RegisterAsync(AccountRegistrationModel userModel);
+        Task<AccountTokenDto> LoginAsync(AccountLoginModel request);
     }
 }
